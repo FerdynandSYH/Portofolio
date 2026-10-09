@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/><script>
+  // Script inline untuk mencegah flash of incorrect theme
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+</script><style>
+@layer base { 
+  html, body { margin: 0; padding: 0; } 
+  body { overscroll-behavior: none; } 
+  main > :first-child { margin-top: 0 !important; } 
+  main > :last-child { margin-bottom: 0 !important; } 
+} 
+::-webkit-scrollbar { display: none; }
+
+/* Transisi Halus Global untuk Tema (Dark/Light mode switch) */
+@media (prefers-reduced-motion: no-preference) {
+  html.theme-transition,
+  html.theme-transition *,
+  html.theme-transition *::before,
+  html.theme-transition *::after {
+    transition: background-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                fill 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                stroke 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+}
+
+/* Animasi rotasi dan scale halus pada ikon toggle tema */
+.theme-icon-container {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.theme-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+}
+html:not(.dark) .theme-icon-dark {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+html:not(.dark) .theme-icon-light {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.3);
+  pointer-events: none;
+}
+html.dark .theme-icon-dark {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.3);
+  pointer-events: none;
+}
+html.dark .theme-icon-light {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+/* Parallax motion layers container */
+.parallax-layer {
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .parallax-layer {
+    transform: none !important;
+  }
+}
+</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "inverse-surface": "#0f172a", "surface-container": "#e0f2fe", "bg-alt": "#f0f7ff", "surface": "#f8fbff", "surface-bright": "#ffffff", "text": "#0f172a", "surface-container-highest": "#dbeafe", "surface-dim": "#cbd5e1", "on-secondary-fixed-variant": "#0369a1", "text-muted": "#64748b", "primary-fixed": "#bae6fd", "primary-fixed-dim": "#7dd3fc", "secondary-container": "#38bdf8", "secondary": "#0284c7", "on-tertiary-fixed": "#381e04", "surface-container-high": "#e0f2fe", "surface-variant": "#dbeafe", "error": "#ba1a1a", "surface-container-lowest": "#ffffff", "on-tertiary-container": "#fed7aa", "on-primary-fixed-variant": "#075985", "on-secondary-container": "#ffffff", "error-container": "#ffdad6", "tertiary": "#ea580c", "on-primary-container": "#f0f9ff", "on-surface": "#0f172a", "tertiary-fixed-dim": "#fdba74", "inverse-on-surface": "#f8fafc", "inverse-primary": "#38bdf8", "secondary-fixed-dim": "#7dd3fc", "on-primary": "#ffffff", "on-surface-variant": "#475569", "tertiary-fixed": "#ffedd5", "on-error-container": "#93000a", "on-background": "#0f172a", "surface-container-low": "#f0f9ff", "tertiary-container": "#c2410c", "outline-variant": "#cbd5e1", "on-tertiary-fixed-variant": "#9a3412", "primary": "#0284c7", "border": "#e2e8f0", "secondary-fixed": "#e0f2fe", "on-secondary": "#ffffff", "on-error": "#ffffff", "on-tertiary": "#ffffff", "background": "#f8fbff", "primary-container": "#0284c7", "outline": "#64748b", "surface-tint": "#0284c7", "on-secondary-fixed": "#082f49", "bg": "#ffffff", "on-primary-fixed": "#082f49" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xl": "2.5rem", "section-padding-desktop": "5rem", "margin": "1rem", "space-lg": "1.5rem", "margin-desktop": "2rem", "section-padding-mobile": "3.5rem", "gutter": "1.5rem", "space-xs": "0.4rem", "space-md": "1.2rem", "space-sm": "0.7rem" }, "fontFamily": { "footer-text": ["Inter"], "headline-hero": ["Inter"], "body-base": ["Inter"], "headline-card": ["Inter"], "brand-logo": ["Inter"], "headline-section": ["Inter"], "body-card": ["Inter"], "headline-hero-mobile": ["Inter"], "tag-capsule": ["Inter"], "role-subtitle": ["Inter"] }, "fontSize": { "footer-text": ["0.9rem", { "lineHeight": "1.5", "fontWeight": "400" }], "headline-hero": ["4.5rem", { "lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "800" }], "body-base": ["1rem", { "lineHeight": "1.6", "fontWeight": "400" }], "headline-card": ["1.25rem", { "lineHeight": "1.35", "letterSpacing": "-0.01em", "fontWeight": "700" }], "brand-logo": ["1.25rem", { "lineHeight": "1.2", "fontWeight": "800" }], "headline-section": ["2rem", { "lineHeight": "1.25", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-card": ["0.95rem", { "lineHeight": "1.5", "fontWeight": "400" }], "headline-hero-mobile": ["2.5rem", { "lineHeight": "1.15", "letterSpacing": "-0.02em", "fontWeight": "800" }], "tag-capsule": ["0.75rem", { "lineHeight": "1", "fontWeight": "600" }], "role-subtitle": ["1.5rem", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "400" }] } } } };</script></head><body class="relative bg-gradient-to-b from-[#ffffff] via-[#f0f9ff] to-[#e0f2fe] dark:from-[#0b1329] dark:via-[#091126] dark:to-[#070e1e] font-body-base text-body-base text-on-surface dark:text-[#f8fafc] antialiased min-h-screen transition-colors duration-300 overflow-x-hidden">
+<!-- Decorative Architectural Grid, Blueprint Mesh & Parallax Geometric Hexagons Background -->
+<div aria-hidden="true" class="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+<!-- Tech Ambient Glow Orbs -->
+<div class="parallax-layer absolute top-[-10%] right-[-5%] w-[650px] h-[650px] rounded-full bg-gradient-to-br from-sky-400/20 via-cyan-300/10 to-transparent dark:from-sky-500/15 dark:via-blue-600/10 dark:to-transparent blur-3xl pointer-events-none" data-speed="-0.08"></div>
+<div class="parallax-layer absolute top-[35%] left-[-12%] w-[550px] h-[550px] rounded-full bg-gradient-to-tr from-cyan-400/15 via-sky-300/10 to-transparent dark:from-blue-600/10 dark:via-cyan-500/10 dark:to-transparent blur-3xl pointer-events-none" data-speed="-0.12"></div>
+<div class="parallax-layer absolute bottom-[-10%] right-[10%] w-[600px] h-[600px] rounded-full bg-gradient-to-t from-sky-300/15 via-blue-200/10 to-transparent dark:from-cyan-900/20 dark:via-blue-900/15 dark:to-transparent blur-3xl pointer-events-none" data-speed="-0.06"></div>
+<!-- PARALLAX LAYER 1: Base Subtle Floating Geometric & Hexagonal Elements (Factor -0.10) -->
+<div class="parallax-layer absolute inset-0 w-full h-[3600px] pointer-events-none" data-speed="-0.1">
+<svg class="absolute inset-0 w-full h-full stroke-sky-600/30 dark:stroke-cyan-400/35 text-sky-500/20 dark:text-cyan-400/25 pointer-events-none" fill="none" preserveaspectratio="none" viewbox="0 0 1440 3200" xmlns="http://www.w3.org/2000/svg">
+<!-- Existing Triangles & Rays in Hero -->
+<polygon class="fill-sky-400/5 dark:fill-cyan-400/10 transform rotate-12" points="120,80 240,290 50,260" stroke-dasharray="6 4" stroke-width="1.5"></polygon>
+<polygon points="160,110 210,230 110,210" stroke-width="1"></polygon>
+<polygon class="fill-sky-500/10 dark:fill-cyan-300/15" points="680,90 730,190 620,160" stroke-width="1.5"></polygon>
+<polygon class="fill-sky-400/5 dark:fill-cyan-400/10" points="1320,180 1410,320 1250,300" stroke-dasharray="8 6" stroke-width="1.5"></polygon>
+<line stroke-dasharray="4 8" stroke-width="1.5" x1="-50" x2="450" y1="320" y2="120"></line>
+<line stroke-width="1.5" x1="80" x2="520" y1="480" y2="320"></line>
+<line stroke-dasharray="6 6" stroke-width="1.5" x1="1100" x2="1480" y1="80" y2="450"></line>
+<line stroke-width="1" x1="980" x2="1360" y1="240" y2="620"></line>
+<line stroke-width="2" x1="920" x2="1040" y1="190" y2="310"></line>
+<circle cx="480" cy="280" r="70" stroke-dasharray="5 5" stroke-width="1.5"></circle>
+<circle cx="480" cy="280" r="35" stroke-width="1"></circle>
+<path d="M465 280 H495 M480 265 V295" stroke-width="1.5"></path>
+<circle cx="1280" cy="480" r="110" stroke-dasharray="8 6" stroke-width="1.5"></circle>
+<circle cx="1280" cy="480" r="60" stroke-width="1"></circle>
+<!-- Mid Section Structural Elements -->
+<polygon class="fill-sky-400/5 dark:fill-cyan-400/10" points="80,950 280,820 380,1050 160,1180" stroke-dasharray="6 6" stroke-width="1.5"></polygon>
+<polygon class="fill-sky-500/10 dark:fill-cyan-300/15" points="1220,980 1380,920 1340,1140" stroke-width="1.5"></polygon>
+<polygon points="1260,1000 1340,960 1320,1080" stroke-width="1"></polygon>
+<line stroke-dasharray="5 5" stroke-width="1.5" x1="850" x2="1250" y1="880" y2="760"></line>
+<line stroke-width="1.5" x1="780" x2="1120" y1="1240" y2="1360"></line>
+<circle cx="180" cy="1220" r="45" stroke-dasharray="4 4" stroke-width="1.5"></circle>
+<path d="M320 890 L340 910 M340 890 L320 910" stroke-width="2"></path>
+<path d="M1180 840 L1200 860 M1200 840 L1180 860" stroke-width="2"></path>
+<!-- Proyek & Keahlian Elements -->
+<line stroke-dasharray="8 8" stroke-width="1.5" x1="-100" x2="650" y1="1550" y2="1920"></line>
+<line stroke-width="1" x1="-50" x2="500" y1="1700" y2="2020"></line>
+<line stroke-dasharray="6 6" stroke-width="1.5" x1="1550" x2="920" y1="1600" y2="1980"></line>
+<polygon class="fill-sky-500/10 dark:fill-cyan-300/15" points="70,1720 190,1650 140,1820" stroke-width="1.5"></polygon>
+<polygon class="fill-sky-400/5 dark:fill-cyan-400/10" points="1320,1750 1420,1680 1380,1860" stroke-width="1.5"></polygon>
+<circle cx="1340" cy="2040" r="85" stroke-dasharray="6 6" stroke-width="1.5"></circle>
+<circle cx="1340" cy="2040" r="40" stroke-width="1"></circle>
+<path d="M1325 2040 H1355 M1340 2025 V2055" stroke-width="1.5"></path>
+<polygon class="fill-sky-400/5 dark:fill-cyan-400/10" points="90,2350 260,2260 210,2480" stroke-width="1.5"></polygon>
+<polygon class="fill-sky-500/10 dark:fill-cyan-300/15" points="1200,2420 1380,2320 1340,2560" stroke-dasharray="7 5" stroke-width="1.5"></polygon>
+<line stroke-dasharray="4 8" stroke-width="1.5" x1="80" x2="480" y1="2520" y2="2680"></line>
+<line stroke-width="1.5" x1="1400" x2="1000" y1="2580" y2="2740"></line>
+<polygon class="fill-sky-400/5 dark:fill-cyan-400/10" points="240,2850 420,2740 360,2980" stroke-dasharray="5 5" stroke-width="1.5"></polygon>
+<polygon class="fill-sky-500/10 dark:fill-cyan-300/15" points="1060,2880 1240,2780 1190,3020" stroke-width="1.5"></polygon>
+<circle cx="260" cy="3040" r="65" stroke-dasharray="6 6" stroke-width="1.5"></circle>
+<circle cx="1180" cy="3080" r="80" stroke-dasharray="5 7" stroke-width="1.5"></circle>
+<line stroke-width="1.5" x1="120" x2="580" y1="3100" y2="2920"></line>
+<line stroke-dasharray="6 6" stroke-width="1.5" x1="900" x2="1360" y1="3120" y2="2960"></line>
+<path d="M280 2740 L300 2760 M300 2740 L280 2760" stroke-width="2"></path>
+<path d="M1140 2730 L1160 2750 M1160 2730 L1140 2750" stroke-width="2"></path>
+</svg>
+</div>
+<!-- PARALLAX LAYER 2: Balanced Hexagonal Geometrics - Medium Speed Drift (Factor -0.20) -->
+<div class="parallax-layer absolute inset-0 w-full h-[3600px] pointer-events-none" data-speed="-0.2">
+<svg class="absolute inset-0 w-full h-full stroke-sky-500/40 dark:stroke-cyan-400/45 text-sky-500/25 dark:text-cyan-400/30 pointer-events-none" fill="none" preserveaspectratio="none" viewbox="0 0 1440 3200" xmlns="http://www.w3.org/2000/svg">
+<!-- 1. KIRI ATAS: Hexagon Ganda Bertingkat dengan Titik Sudut (Area Hero Kiri Atas) -->
+<g transform="translate(60, 160)">
+<!-- Outer Hexagon -->
+<polygon class="stroke-sky-500/50 dark:stroke-cyan-400/60 fill-sky-500/5 dark:fill-cyan-400/10" points="60,0 120,35 120,105 60,140 0,105 0,35" stroke-width="1.75"></polygon>
+<!-- Inner Concentric Hexagon -->
+<polygon class="stroke-sky-400/60 dark:stroke-cyan-300/60" points="60,20 102,45 102,95 60,120 18,95 18,45" stroke-dasharray="4 3" stroke-width="1"></polygon>
+<!-- Vertex Accent Nodes -->
+<circle class="fill-sky-600 dark:fill-cyan-300" cx="60" cy="0" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-300" cx="120" cy="35" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-300" cx="120" cy="105" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-300" cx="60" cy="140" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-300" cx="0" cy="105" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-300" cx="0" cy="35" r="2.5"></circle>
+<!-- Radial Center Hub -->
+<circle class="fill-sky-500/40 dark:fill-cyan-400/50" cx="60" cy="70" r="4"></circle>
+</g>
+<!-- 2. KANAN TENGAH ATAS: Hexagon Elegan dengan Garis Diagonal Cross Intersect (Dekat Hero Code Deck) -->
+<g transform="translate(1280, 260)">
+<polygon class="stroke-sky-600/45 dark:stroke-cyan-400/55 fill-sky-400/10 dark:fill-cyan-400/15" points="50,0 100,29 100,87 50,116 0,87 0,29" stroke-width="1.8"></polygon>
+<line class="stroke-sky-400/70 dark:stroke-cyan-300/70" stroke-dasharray="3 3" stroke-width="1" x1="0" x2="100" y1="29" y2="87"></line>
+<line class="stroke-sky-400/70 dark:stroke-cyan-300/70" stroke-dasharray="3 3" stroke-width="1" x1="0" x2="100" y1="87" y2="29"></line>
+<line class="stroke-sky-500/50 dark:stroke-cyan-300/50" stroke-width="1" x1="50" x2="50" y1="0" y2="116"></line>
+<!-- Tiny Corner Hex Marks -->
+<circle class="fill-sky-500 dark:fill-cyan-300" cx="50" cy="0" r="2"></circle>
+<circle class="fill-sky-500 dark:fill-cyan-300" cx="50" cy="116" r="2"></circle>
+</g>
+<!-- 3. AREA TENGAH: Hexagon Minimalis Halus di antara Hero dan Tentang (Pusat Spasial) -->
+<g transform="translate(710, 680)">
+<polygon class="stroke-sky-500/40 dark:stroke-cyan-400/50 fill-sky-500/5 dark:fill-cyan-400/10" points="45,0 90,26 90,78 45,104 0,78 0,26" stroke-dasharray="5 3" stroke-width="1.5"></polygon>
+<circle class="stroke-sky-400/60 dark:stroke-cyan-300/60" cx="45" cy="52" r="16" stroke-width="1"></circle>
+<circle class="fill-sky-500 dark:fill-cyan-300" cx="45" cy="52" r="2.5"></circle>
+</g>
+<!-- 4. KIRI TENGAH BAWAH: Hexagon Sarang Lebah (Honeycomb Cluster) di Sekitar Proyek -->
+<g transform="translate(40, 1420)">
+<!-- Main Hexagon -->
+<polygon class="stroke-sky-500/50 dark:stroke-cyan-400/55 fill-sky-400/10 dark:fill-cyan-400/15" points="55,0 110,32 110,95 55,127 0,95 0,32" stroke-width="1.8"></polygon>
+<!-- Adjacent Satellite Mini Hex -->
+<polygon class="stroke-sky-400/50 dark:stroke-cyan-300/50" points="135,15 160,30 160,59 135,74 110,59 110,30" stroke-width="1.2"></polygon>
+<!-- Corner Dots -->
+<circle class="fill-sky-600 dark:fill-cyan-400" cx="55" cy="0" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-400" cx="110" cy="32" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-400" cx="110" cy="95" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-400" cx="55" cy="127" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-400" cx="0" cy="95" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-400" cx="0" cy="32" r="2.5"></circle>
+</g>
+<!-- 5. KANAN TENGAH: Hexagon Bergaris Struktural di Area Keahlian -->
+<g transform="translate(1310, 2180)">
+<polygon class="stroke-sky-500/50 dark:stroke-cyan-400/60 fill-sky-500/5 dark:fill-cyan-400/10" points="65,0 130,37 130,112 65,150 0,112 0,37" stroke-width="1.75"></polygon>
+<polygon class="stroke-sky-400/40 dark:stroke-cyan-300/40" points="65,22 110,48 110,101 65,128 20,101 20,48" stroke-dasharray="6 4" stroke-width="1"></polygon>
+<line class="stroke-sky-500/50 dark:stroke-cyan-300/50" stroke-dasharray="4 4" stroke-width="1.2" x1="65" x2="65" y1="0" y2="150"></line>
+<circle class="fill-sky-500/40 dark:fill-cyan-300/40" cx="65" cy="75" r="5"></circle>
+</g>
+<!-- 6. KANAN BAWAH: Hexagon Geometris Presisi di Area Kontak -->
+<g transform="translate(1220, 2760)">
+<polygon class="stroke-sky-500/45 dark:stroke-cyan-400/60 fill-sky-400/10 dark:fill-cyan-400/15" points="50,0 100,29 100,87 50,116 0,87 0,29" stroke-width="1.8"></polygon>
+<line class="stroke-sky-400/60 dark:stroke-cyan-300/60" stroke-width="1" x1="0" x2="100" y1="29" y2="87"></line>
+<line class="stroke-sky-400/60 dark:stroke-cyan-300/60" stroke-width="1" x1="0" x2="100" y1="87" y2="29"></line>
+<circle class="fill-sky-500 dark:fill-cyan-300" cx="50" cy="58" r="3"></circle>
+</g>
+<!-- 7. KIRI BAWAH: Hexagon Ganda Vertikal Aksen Formulir Kontak -->
+<g transform="translate(70, 2920)">
+<polygon class="stroke-sky-500/45 dark:stroke-cyan-400/55 fill-sky-500/5 dark:fill-cyan-400/10" points="45,0 90,26 90,78 45,104 0,78 0,26" stroke-width="1.6"></polygon>
+<polygon class="stroke-sky-400/50 dark:stroke-cyan-300/50" points="45,15 77,33 77,71 45,89 13,71 13,33" stroke-dasharray="3 3" stroke-width="1"></polygon>
+<circle class="fill-sky-600 dark:fill-cyan-300" cx="45" cy="0" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-300" cx="90" cy="26" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-300" cx="90" cy="78" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-300" cx="45" cy="104" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-300" cx="0" cy="78" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-300" cx="0" cy="26" r="2.5"></circle>
+</g>
+</svg>
+</div>
+<!-- PARALLAX LAYER 3: Fast Upward Drift Accents (Factor -0.32) for Dynamic Spatial Depth -->
+<div class="parallax-layer absolute inset-0 w-full h-[3600px] pointer-events-none" data-speed="-0.32">
+<svg class="absolute inset-0 w-full h-full stroke-sky-500/50 dark:stroke-cyan-300/60 text-sky-400/30 dark:text-cyan-300/30 pointer-events-none" fill="none" preserveaspectratio="none" viewbox="0 0 1440 3200" xmlns="http://www.w3.org/2000/svg">
+<!-- Floating Fast Mini Hexagon - Hero Center Right -->
+<g transform="translate(860, 210)">
+<polygon class="stroke-sky-500/55 dark:stroke-cyan-300/65 fill-sky-400/15 dark:fill-cyan-400/20" points="25,0 50,14 50,43 25,58 0,43 0,14" stroke-width="1.5"></polygon>
+<circle class="fill-sky-500 dark:fill-cyan-300" cx="25" cy="29" r="2"></circle>
+</g>
+<!-- Floating Fast Hexagon - Section Tentang Kanan -->
+<g transform="translate(1120, 1160)">
+<polygon class="stroke-sky-500/50 dark:stroke-cyan-400/60 fill-sky-400/10 dark:fill-cyan-400/15" points="35,0 70,20 70,60 35,80 0,60 0,20" stroke-dasharray="4 3" stroke-width="1.75"></polygon>
+<circle class="fill-sky-600 dark:fill-cyan-300" cx="35" cy="0" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-300" cx="70" cy="20" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-300" cx="70" cy="60" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-300" cx="35" cy="80" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-300" cx="0" cy="60" r="2.5"></circle>
+<circle class="fill-sky-600 dark:fill-cyan-300" cx="0" cy="20" r="2.5"></circle>
+</g>
+<!-- Floating Fast Hexagon - Area Proyek Tengah Kanan -->
+<g transform="translate(940, 1780)">
+<polygon class="stroke-sky-600/55 dark:stroke-cyan-300/65 fill-sky-400/10 dark:fill-cyan-300/15" points="30,0 60,17 60,52 30,69 0,52 0,17" stroke-width="1.6"></polygon>
+<line class="stroke-sky-400/60 dark:stroke-cyan-300/60" stroke-width="1" x1="0" x2="60" y1="17" y2="52"></line>
+</g>
+<!-- Floating Fast Hexagon - Area Keahlian Kiri -->
+<g transform="translate(210, 2180)">
+<polygon class="stroke-sky-500/50 dark:stroke-cyan-400/60 fill-sky-500/10 dark:fill-cyan-400/15" points="32,0 64,18 64,55 32,73 0,55 0,18" stroke-width="1.5"></polygon>
+<circle class="fill-sky-500 dark:fill-cyan-300" cx="32" cy="36.5" r="2.5"></circle>
+</g>
+<!-- Floating Fast Hexagon - Area Kontak Pusat Atas -->
+<g transform="translate(480, 2680)">
+<polygon class="stroke-sky-500/50 dark:stroke-cyan-400/60" points="28,0 56,16 56,48 28,64 0,48 0,16" stroke-dasharray="3 3" stroke-width="1.5"></polygon>
+<circle class="fill-sky-500/50 dark:fill-cyan-300/50" cx="28" cy="32" r="3"></circle>
+</g>
+</svg>
+</div>
+</div>
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-[#0b1329]/80 backdrop-blur-md shadow-[0_1px_8px_rgba(2,132,199,0.06)] dark:shadow-[0_1px_8px_rgba(0,0,0,0.5)] border-b border-sky-100/80 dark:border-sky-950/60 transition-colors"><div class="h-16 max-w-[1100px] mx-auto px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm"><img alt="Portfolio Logo" class="h-8 w-auto object-contain dark:brightness-110" src="image/logo.jpeg"/><span class="font-brand-logo text-brand-logo text-on-surface dark:text-[#f8fafc] tracking-tight">Portfolio</span></div><nav class="hidden md:flex items-center gap-space-lg"><a aria-current="page" class="transition-colors px-space-xs py-space-xs bg-sky-100/70 dark:bg-sky-950/70 text-sky-700 dark:text-sky-300 font-semibold rounded-lg" data-path="tentang" href="#tentang">Tentang</a><a class="text-on-surface-variant dark:text-[#94a3b8] hover:text-sky-600 dark:hover:text-sky-300 font-body-base text-body-base transition-colors px-space-xs py-space-xs" data-path="proyek" href="#proyek">Proyek</a><a class="text-on-surface-variant dark:text-[#94a3b8] hover:text-sky-600 dark:hover:text-sky-300 font-body-base text-body-base transition-colors px-space-xs py-space-xs" data-path="keahlian" href="#keahlian">Keahlian</a><a class="text-on-surface-variant dark:text-[#94a3b8] hover:text-sky-600 dark:hover:text-sky-300 font-body-base text-body-base transition-colors px-space-xs py-space-xs" data-path="kontak" href="#kontak">Kontak</a></nav><div class="flex items-center gap-space-md"><!-- Dark Mode Toggle Button --><button aria-label="Alihkan mode gelap atau terang" class="w-9 h-9 rounded-lg flex items-center justify-center text-text-muted dark:text-[#94a3b8] hover:text-sky-600 dark:hover:text-sky-300 bg-white/90 dark:bg-slate-900/80 hover:bg-sky-50 dark:hover:bg-slate-800 border border-sky-100 dark:border-slate-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500 overflow-hidden shadow-sm" id="theme-toggle" type="button"><div class="theme-icon-container"><span class="material-symbols-outlined text-[20px] theme-icon theme-icon-dark">dark_mode</span><span class="material-symbols-outlined text-[20px] theme-icon theme-icon-light text-amber-300">light_mode</span></div></button><a class="hidden sm:inline-flex items-center justify-center bg-sky-600 hover:bg-sky-700 dark:bg-sky-600 dark:hover:bg-sky-500 text-white font-semibold text-body-card px-space-md py-space-sm rounded-lg transition-all duration-200 shadow-sm hover:shadow-sky-500/20" data-path="kontak" href="#kontak">Hubungi Saya</a><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-2 ring-sky-300/50 dark:ring-sky-700" src="image/me.jpeg"/></div></div></header><main class="relative z-10 w-full pt-16 transition-colors"><div class="flex flex-col w-full">
+<!-- HERO SECTION -->
+<section class="w-full py-section-padding-mobile md:py-section-padding-desktop transition-colors">
+<div class="max-w-[1100px] mx-auto px-gutter grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+<!-- Kolom Teks Hero -->
+<div class="lg:col-span-7 flex flex-col items-start gap-space-md">
+<!-- Status Ketersediaan Pulsing -->
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 dark:bg-slate-900/80 border border-sky-100 dark:border-slate-800 shadow-sm backdrop-blur-sm">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+</span>
+<span class="font-tag-capsule text-tag-capsule text-text dark:text-[#f8fafc] font-semibold tracking-wide">
+            Tersedia untuk proyek baru
+          </span>
+</div>
+<!-- Sapaan -->
+<span class="text-sky-600 dark:text-sky-400 font-headline-card text-headline-card font-bold">
+          Halo, saya Muhammad Ferdynand Syah 👋
+        </span>
+<!-- Nama Headline Super Besar -->
+<h1 class="font-headline-hero text-headline-hero text-text dark:text-[#f8fafc] tracking-tight">
+          Muhammad Ferdynand Syah
+        </h1>
+<!-- Peran Subtitle -->
+<p class="font-role-subtitle text-role-subtitle text-text-muted dark:text-[#94a3b8]">
+          Full-Stack Developer &amp; UI/UX Enthusiast
+        </p>
+<!-- Deskripsi Singkat -->
+<p class="max-w-[520px] font-body-base text-body-base text-text-muted dark:text-[#94a3b8] leading-relaxed">
+          Membangun aplikasi web berperforma tinggi dan antarmuka pengguna yang intuitif, bersih, serta berorientasi pada hasil.
+        </p>
+<!-- CTA Buttons -->
+<div class="flex flex-wrap items-center gap-space-md mt-2">
+<a class="inline-flex items-center justify-center font-body-card text-body-card font-semibold text-white bg-sky-600 hover:bg-sky-700 dark:bg-sky-600 dark:hover:bg-sky-500 transition-all duration-200 px-space-md py-space-sm rounded-[10px] shadow-sm hover:shadow-sky-500/25 transform hover:-translate-y-0.5" href="#proyek">
+            Lihat Proyek
+          </a>
+<a class="inline-flex items-center justify-center font-body-card text-body-card font-semibold text-sky-700 dark:text-sky-300 bg-white/90 dark:bg-slate-900/80 hover:bg-sky-600 hover:text-white dark:hover:bg-sky-600 dark:hover:text-white border border-sky-200/80 dark:border-slate-800 transition-all duration-200 px-space-md py-space-sm rounded-[10px] shadow-sm hover:shadow-md transform hover:-translate-y-0.5 backdrop-blur-sm" href="#kontak">
+            Hubungi Saya
+          </a>
+</div>
+<!-- Social Icons & Metrik Cepat -->
+<div class="w-full pt-space-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md">
+<div class="flex items-center gap-3">
+<a aria-label="GitHub Profile" class="p-2.5 rounded-[10px] bg-white/90 dark:bg-slate-900/80 text-text dark:text-[#f8fafc] hover:text-sky-600 dark:hover:text-sky-400 border border-sky-100 dark:border-slate-800 transition-colors flex items-center justify-center shadow-sm" href="https://github.com" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[20px]">code</span>
+</a>
+<a aria-label="LinkedIn Profile" class="p-2.5 rounded-[10px] bg-white/90 dark:bg-slate-900/80 text-text dark:text-[#f8fafc] hover:text-sky-600 dark:hover:text-sky-400 border border-sky-100 dark:border-slate-800 transition-colors flex items-center justify-center shadow-sm" href="https://linkedin.com" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[20px]">work</span>
+</a>
+<a aria-label="Kirim Email" class="p-2.5 rounded-[10px] bg-white/90 dark:bg-slate-900/80 text-text dark:text-[#f8fafc] hover:text-sky-600 dark:hover:text-sky-400 border border-sky-100 dark:border-slate-800 transition-colors flex items-center justify-center shadow-sm" href="mailto:hello@aryapratama.dev">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</a>
+</div>
+<div class="flex items-center gap-3 text-text-muted dark:text-[#94a3b8] font-tag-capsule text-tag-capsule">
+<span class="font-bold text-text dark:text-[#f8fafc]">3+</span> Th Pengalaman
+            <span class="w-1 h-1 rounded-full bg-sky-300 dark:bg-sky-800"></span>
+<span class="font-bold text-text dark:text-[#f8fafc]">15+</span> Proyek
+            <span class="w-1 h-1 rounded-full bg-sky-300 dark:bg-sky-800"></span>
+<span class="font-bold text-text dark:text-[#f8fafc]">99%</span> Kepuasan
+          </div>
+</div>
+</div>
+<!-- Kolom Visual Hero: Interactive Terminal Code Deck -->
+<div class="lg:col-span-5 w-full flex justify-center">
+<div class="w-full max-w-[440px] rounded-[10px] bg-slate-900 dark:bg-slate-900/95 border border-sky-800/40 dark:border-sky-800/50 shadow-xl dark:shadow-sky-950/50 p-space-md flex flex-col gap-space-sm transform hover:scale-[1.01] transition-transform duration-300 backdrop-blur-sm">
+<!-- Window Header Bar -->
+<div class="flex items-center justify-between pb-space-xs border-b border-slate-800">
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+<span class="w-3 h-3 rounded-full bg-amber-400 inline-block"></span>
+<span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+</div>
+<div class="flex items-center gap-1 text-slate-400 font-tag-capsule text-tag-capsule">
+<span class="material-symbols-outlined text-[14px]">terminal</span>
+<span>developer.config.ts</span>
+</div>
+</div>
+<!-- Code Snippet Body -->
+<pre class="font-mono text-[0.82rem] leading-relaxed text-slate-200 overflow-x-auto p-space-xs rounded-md bg-slate-950/80"><code><span class="text-sky-400">const</span> <span class="text-cyan-300">developer</span> = {
+  name: <span class="text-emerald-300">'Muhammad Ferdynand Syah'</span>,
+  title: <span class="text-emerald-300">'Full-Stack Engineer'</span>,
+  coreSkills: [
+    <span class="text-sky-200">'TypeScript'</span>, <span class="text-sky-200">'React'</span>,
+    <span class="text-sky-200">'Next.js'</span>, <span class="text-sky-200">'Node.js'</span>,
+    <span class="text-sky-200">'Tailwind CSS'</span>
+  ],
+  passion: <span class="text-emerald-300">'Clean code &amp; intuitive UI'</span>,
+  status: <span class="text-emerald-400">'Open to Collab'</span>,
+  currentFocus: () =&gt; {
+    <span class="text-sky-400">return</span> <span class="text-emerald-300">'Building fast web experiences'</span>;
+  }
+};</code></pre>
+<!-- Interactive Micro Console Footer -->
+<div class="pt-space-xs flex items-center justify-between text-slate-400 font-tag-capsule text-tag-capsule">
+<div class="flex items-center gap-2">
+<span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+<span class="text-slate-300">All Systems Operational</span>
+</div>
+<span class="text-slate-500">UTF-8</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION: TENTANG SAYA -->
+<section class="w-full py-section-padding-mobile md:py-section-padding-desktop transition-colors" id="tentang">
+<div class="max-w-[1100px] mx-auto px-gutter">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+<!-- Kolom Foto Profil -->
+<div class="lg:col-span-5 flex justify-center">
+<div class="relative w-full max-w-[360px] aspect-square rounded-[10px] overflow-hidden shadow-lg dark:shadow-2xl bg-white/70 dark:bg-slate-900/80 border border-sky-100 dark:border-slate-800 group backdrop-blur-sm">
+<img alt="Muhammad Ferdynand Syah - Full-Stack Developer &amp; UI/UX Designer" class="w-full h-full object-cover rounded-[10px] transition-transform duration-500 group-hover:scale-105" src="image/me.jpeg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-60 pointer-events-none"></div>
+<div class="absolute bottom-3 left-3 right-3 p-3 rounded-[10px] bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm shadow-md border border-sky-100/80 dark:border-slate-800 flex items-center justify-between">
+<div>
+<p class="font-headline-card text-[0.85rem] font-bold text-text dark:text-[#f8fafc]">Muhammad Ferdynand Syah</p>
+<p class="font-body-card text-[0.75rem] text-text-muted dark:text-[#94a3b8]">Jakarta, Indonesia</p>
+</div>
+<span class="material-symbols-outlined text-sky-600 dark:text-sky-400 text-[20px]">verified</span>
+</div>
+</div>
+</div>
+<!-- Kolom Teks Profil & Filosofi -->
+<div class="lg:col-span-7 flex flex-col items-start gap-space-md">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100/80 dark:bg-sky-950/70 text-sky-700 dark:text-sky-300 border border-sky-200/60 dark:border-sky-800/60 font-tag-capsule text-tag-capsule uppercase tracking-wider font-semibold">
+            Tentang Saya
+          </div>
+<h2 class="font-headline-section text-headline-section text-text dark:text-[#f8fafc] tracking-tight">
+            Menghubungkan Ide Kompleks dengan Eksekusi Visual yang Bersih
+          </h2>
+<div class="flex flex-col gap-3 font-body-base text-body-base text-text-muted dark:text-[#94a3b8] leading-relaxed">
+<p>
+              Saya adalah seorang Full-Stack Developer dan penikmat antarmuka digital yang berbasis di Jakarta. Berbekal pengalaman lebih dari tiga tahun, saya berspesialisasi dalam merancang arsitektur web modern mulai dari perancangan komponen UI di Figma hingga integrasi API dan basis data di sisi server.
+            </p>
+<p>
+              Filosofi kerja saya bertumpu pada dua pilar: <strong class="text-text dark:text-[#f8fafc] font-semibold">Clean Code</strong> untuk kemudahan skalabilitas jangka panjang dan <strong class="text-text dark:text-[#f8fafc] font-semibold">User-Centric Design</strong> untuk memastikan setiap interaksi pengguna terasa mulus, cepat, dan tanpa friksi.
+            </p>
+</div>
+<!-- Feature Bullets Mini Bento -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm w-full pt-1">
+<div class="p-space-sm rounded-[10px] bg-white/80 dark:bg-slate-900/80 border border-sky-100 dark:border-slate-800 shadow-sm flex items-start gap-3 backdrop-blur-sm">
+<span class="material-symbols-outlined text-sky-600 dark:text-sky-400 text-[24px]">terminal</span>
+<div>
+<h3 class="font-headline-card text-body-card font-bold text-text dark:text-[#f8fafc]">Arsitektur Modular</h3>
+<p class="font-body-card text-[0.85rem] text-text-muted dark:text-[#94a3b8]">Kode rapi, reaktif, dan mudah dirawat.</p>
+</div>
+</div>
+<div class="p-space-sm rounded-[10px] bg-white/80 dark:bg-slate-900/80 border border-sky-100 dark:border-slate-800 shadow-sm flex items-start gap-3 backdrop-blur-sm">
+<span class="material-symbols-outlined text-sky-600 dark:text-sky-400 text-[24px]">devices</span>
+<div>
+<h3 class="font-headline-card text-body-card font-bold text-text dark:text-[#f8fafc]">Desain Responsif</h3>
+<p class="font-body-card text-[0.85rem] text-text-muted dark:text-[#94a3b8]">Tampilan konsisten di seluruh ukuran layar.</p>
+</div>
+</div>
+</div>
+<!-- Unduh CV Action Button -->
+<div class="pt-2">
+<a class="inline-flex items-center gap-2 font-body-card text-body-card font-semibold text-white bg-sky-600 hover:bg-sky-700 dark:bg-sky-600 dark:hover:bg-sky-500 px-space-md py-space-sm rounded-[10px] shadow-sm hover:shadow-sky-500/20 transition-all duration-200" download="" href="#">
+<span class="material-symbols-outlined text-[18px]">download</span>
+              Unduh CV / Resume
+            </a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION: PROYEK -->
+<section class="w-full py-section-padding-mobile md:py-section-padding-desktop transition-colors" id="proyek">
+<div class="max-w-[1100px] mx-auto px-gutter flex flex-col gap-space-xl">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm">
+<div class="flex flex-col items-start gap-space-xs">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100/80 dark:bg-sky-950/70 text-sky-700 dark:text-sky-300 border border-sky-200/60 dark:border-sky-800/60 font-tag-capsule text-tag-capsule uppercase tracking-wider font-semibold">
+            Karya Terpilih
+          </div>
+<h2 class="font-headline-section text-headline-section text-text dark:text-[#f8fafc] tracking-tight">
+            Proyek Pilihan
+          </h2>
+</div>
+<p class="font-body-base text-body-base text-text-muted dark:text-[#94a3b8] max-w-[420px]">
+          Koleksi proyek pilihan yang menunjukkan kapabilitas menyeluruh dari arsitektur frontend hingga integrasi backend.
+        </p>
+</div>
+<!-- Grid Kartu Proyek -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-lg">
+<!-- Proyek 1: SaaS Analytics Dashboard -->
+<article class="bg-white/85 dark:bg-slate-900/85 backdrop-blur-sm border border-sky-100 dark:border-slate-800 rounded-[10px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
+<!-- Thumbnail Media -->
+<div class="h-[180px] w-full bg-sky-50 dark:bg-slate-950 relative overflow-hidden group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern sleek dark-themed SaaS analytics dashboard interface displaying business graphs, conversion rate charts, revenue statistics, metrics widgets, high fidelity web UI, vibrant indigo and purple visual accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiTPTBirXPGmTAKLbjGaOfWwsR-n1y81mG4J6W5D_tPQ9A4yvP_AVM_fpKj5X6sbQwGBPs_34yjzAr0EuQmBs9DiHoksvnUz1O5akawvSRImUh2f5cwU-w1oF-i3nDCgW36VJeel915cLrczJUo3tzs3r9o1LebKlmC4dgTNem6SDvUVGLmsV62c5p-JHoYBCLgnlbNNoNclmCtWA6e1FPaADFGmXTI0qrc3NKe0EHgdLmxTalVkvT"/>
+<div class="absolute top-3 right-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm px-2.5 py-1 rounded-full text-text dark:text-[#f8fafc] border border-sky-100 dark:border-slate-800 font-tag-capsule text-[0.7rem] font-bold shadow-sm">
+              SaaS App
+            </div>
+</div>
+<!-- Card Content -->
+<div class="p-space-md flex flex-col flex-grow justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<h3 class="font-headline-card text-headline-card text-text dark:text-[#f8fafc] font-bold">
+                SaaS Analytics Dashboard
+              </h3>
+<p class="font-body-card text-body-card text-text-muted dark:text-[#94a3b8]">
+                Platform analitik real-time untuk startup SaaS dengan visualisasi metrik bisnis, konversi, dan performa keuangan bulanan.
+              </p>
+</div>
+<div class="flex flex-col gap-space-md">
+<!-- Skill Tags -->
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2.5 py-1 rounded-full bg-sky-50 dark:bg-slate-950 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-slate-800 font-tag-capsule text-tag-capsule">Next.js</span>
+<span class="px-2.5 py-1 rounded-full bg-sky-50 dark:bg-slate-950 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-slate-800 font-tag-capsule text-tag-capsule">Tailwind CSS</span>
+<span class="px-2.5 py-1 rounded-full bg-sky-50 dark:bg-slate-950 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-slate-800 font-tag-capsule text-tag-capsule">TypeScript</span>
+<span class="px-2.5 py-1 rounded-full bg-sky-50 dark:bg-slate-950 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-slate-800 font-tag-capsule text-tag-capsule">Chart.js</span>
+</div>
+<!-- Action Links -->
+<div class="flex items-center justify-between pt-2 border-t border-sky-100/60 dark:border-slate-800">
+<a class="inline-flex items-center gap-1.5 text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-body-card text-body-card font-semibold transition-colors" href="#">
+<span>Demo Live</span>
+<span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+<a class="inline-flex items-center gap-1.5 text-text-muted dark:text-[#94a3b8] hover:text-text dark:hover:text-[#f8fafc] font-body-card text-body-card transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]">code</span>
+<span>Source Code</span>
+</a>
+</div>
+</div>
+</div>
+</article>
+<!-- Proyek 2: E-Commerce Marketplace App -->
+<article class="bg-white/85 dark:bg-slate-900/85 backdrop-blur-sm border border-sky-100 dark:border-slate-800 rounded-[10px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
+<!-- Thumbnail Media -->
+<div class="h-[180px] w-full bg-sky-50 dark:bg-slate-950 relative overflow-hidden group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Clean minimalist e-commerce marketplace web app interface displaying modern fashion products catalog, responsive mobile preview, shopping bag checkout flow, high-end commercial aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVexQixXE7EHYs-q6GbOHkXp4qeYpFOc5o2EIn2Yvi0XOHtQzaiBKCvgiU_jGsl5lLYn1bos9FzusGRSGR-pCqBqg3n-BgTmZ4yLD3tUN23Dqetj_Vqm2uu3JbaZw0HcTurLV-FDcqK8dciNp5IIvGv3pkEeNIxM9JVtENaw8BAAS_CmstsLeaD4ujQidm20CipZp6Kvh0CfaoW7GkOWa0MEYWD3FFZqN0f26S95qBnDD3qsaeDPIx"/>
+<div class="absolute top-3 right-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm px-2.5 py-1 rounded-full text-text dark:text-[#f8fafc] border border-sky-100 dark:border-slate-800 font-tag-capsule text-[0.7rem] font-bold shadow-sm">
+              E-Commerce
+            </div>
+</div>
+<!-- Card Content -->
+<div class="p-space-md flex flex-col flex-grow justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<h3 class="font-headline-card text-headline-card text-text dark:text-[#f8fafc] font-bold">
+                E-Commerce Marketplace App
+              </h3>
+<p class="font-body-card text-body-card text-text-muted dark:text-[#94a3b8]">
+                Pengalaman belanja responsif lengkap dengan manajemen keranjang dinamis, pencarian instan, dan integrasi payment gateway.
+              </p>
+</div>
+<div class="flex flex-col gap-space-md">
+<!-- Skill Tags -->
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2.5 py-1 rounded-full bg-sky-50 dark:bg-slate-950 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-slate-800 font-tag-capsule text-tag-capsule">React</span>
+<span class="px-2.5 py-1 rounded-full bg-sky-50 dark:bg-slate-950 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-slate-800 font-tag-capsule text-tag-capsule">Node.js</span>
+<span class="px-2.5 py-1 rounded-full bg-sky-50 dark:bg-slate-950 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-slate-800 font-tag-capsule text-tag-capsule">PostgreSQL</span>
+<span class="px-2.5 py-1 rounded-full bg-sky-50 dark:bg-slate-950 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-slate-800 font-tag-capsule text-tag-capsule">Tailwind</span>
+</div>
+<!-- Action Links -->
+<div class="flex items-center justify-between pt-2 border-t border-sky-100/60 dark:border-slate-800">
+<a class="inline-flex items-center gap-1.5 text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-body-card text-body-card font-semibold transition-colors" href="#">
+<span>Demo Live</span>
+<span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+<a class="inline-flex items-center gap-1.5 text-text-muted dark:text-[#94a3b8] hover:text-text dark:hover:text-[#f8fafc] font-body-card text-body-card transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]">code</span>
+<span>Source Code</span>
+</a>
+</div>
+</div>
+</div>
+</article>
+<!-- Proyek 3: TaskFlow Project Management -->
+<article class="bg-white/85 dark:bg-slate-900/85 backdrop-blur-sm border border-sky-100 dark:border-slate-800 rounded-[10px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
+<!-- Thumbnail Media -->
+<div class="h-[180px] w-full bg-sky-50 dark:bg-slate-950 relative overflow-hidden group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Interactive modern productivity Kanban board web application with neat drag and drop task cards, team collaboration avatars, progress meters, elegant light UI with deep indigo details" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBw_ZfE500f5gcCmOoNjRIVzPqD-Q35kEZBWv5yVd5nbXj-_VqhBf300lFYMKrK-6as5asuoa3JgFHg8_lN0BnN2aOOMPpxGD3jF8wNqp_2l411yX6AleLIqnrtfBp7q_vFlzfi_-KwMRHTVKf0V6t5UtNDjbGFxATEXex41WyFUArZgzMtiUU7e5yybCuiICvQUatrrcsm3zCj8SPxknApluCVSr8-OXP7tiPo4Ij8KnhfgupOQFNt"/>
+<div class="absolute top-3 right-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm px-2.5 py-1 rounded-full text-text dark:text-[#f8fafc] border border-sky-100 dark:border-slate-800 font-tag-capsule text-[0.7rem] font-bold shadow-sm">
+              Productivity
+            </div>
+</div>
+<!-- Card Content -->
+<div class="p-space-md flex flex-col flex-grow justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<h3 class="font-headline-card text-headline-card text-text dark:text-[#f8fafc] font-bold">
+                TaskFlow Project Management
+              </h3>
+<p class="font-body-card text-body-card text-text-muted dark:text-[#94a3b8]">
+                Alat kolaborasi tim bergaya Kanban interaktif dengan sinkronisasi real-time, label prioritas tugas, dan analitik produktivitas.
+              </p>
+</div>
+<div class="flex flex-col gap-space-md">
+<!-- Skill Tags -->
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2.5 py-1 rounded-full bg-sky-50 dark:bg-slate-950 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-slate-800 font-tag-capsule text-tag-capsule">Vue.js</span>
+<span class="px-2.5 py-1 rounded-full bg-sky-50 dark:bg-slate-950 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-slate-800 font-tag-capsule text-tag-capsule">Firebase</span>
+<span class="px-2.5 py-1 rounded-full bg-sky-50 dark:bg-slate-950 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-slate-800 font-tag-capsule text-tag-capsule">Pinia</span>
+<span class="px-2.5 py-1 rounded-full bg-sky-50 dark:bg-slate-950 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-slate-800 font-tag-capsule text-tag-capsule">Tailwind</span>
+</div>
+<!-- Action Links -->
+<div class="flex items-center justify-between pt-2 border-t border-sky-100/60 dark:border-slate-800">
+<a class="inline-flex items-center gap-1.5 text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-body-card text-body-card font-semibold transition-colors" href="#">
+<span>Demo Live</span>
+<span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+<a class="inline-flex items-center gap-1.5 text-text-muted dark:text-[#94a3b8] hover:text-text dark:hover:text-[#f8fafc] font-body-card text-body-card transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]">code</span>
+<span>Source Code</span>
+</a>
+</div>
+</div>
+</div>
+</article>
+</div>
+</div>
+</section>
+<!-- SECTION: KEAHLIAN -->
+<section class="w-full py-section-padding-mobile md:py-section-padding-desktop transition-colors" id="keahlian">
+<div class="max-w-[1100px] mx-auto px-gutter flex flex-col gap-space-xl">
+<!-- Section Title Centered -->
+<div class="flex flex-col items-center text-center gap-space-xs max-w-[650px] mx-auto">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100/80 dark:bg-sky-950/70 text-sky-700 dark:text-sky-300 border border-sky-200/60 dark:border-sky-800/60 font-tag-capsule text-tag-capsule uppercase tracking-wider font-semibold">
+          Keahlian
+        </div>
+<h2 class="font-headline-section text-headline-section text-text dark:text-[#f8fafc] tracking-tight">
+          Keahlian &amp; Teknologi
+        </h2>
+<p class="font-body-base text-body-base text-text-muted dark:text-[#94a3b8]">
+          Peralatan teknis dan ekosistem modern yang saya gunakan untuk mewujudkan produk digital berstandar tinggi.
+        </p>
+</div>
+<!-- Categories 3 Column Bento -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Kategori 1: Frontend -->
+<div class="p-space-lg rounded-[10px] bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border border-sky-100 dark:border-slate-800 shadow-sm flex flex-col gap-space-md hover:shadow-md transition-shadow">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-[10px] bg-sky-600 dark:bg-sky-600 text-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[22px]">desktop_windows</span>
+</div>
+<div>
+<h3 class="font-headline-card text-headline-card text-text dark:text-[#f8fafc] font-bold">Frontend</h3>
+<p class="font-body-card text-[0.8rem] text-text-muted dark:text-[#94a3b8]">Client-side &amp; UI Systems</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">HTML5</span>
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">CSS3</span>
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">JavaScript (ES6+)</span>
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">TypeScript</span>
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">React</span>
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Next.js</span>
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Vue.js</span>
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Tailwind CSS</span>
+</div>
+</div>
+<!-- Kategori 2: Backend & Database -->
+<div class="p-space-lg rounded-[10px] bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border border-sky-100 dark:border-slate-800 shadow-sm flex flex-col gap-space-md hover:shadow-md transition-shadow">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-[10px] bg-sky-600 dark:bg-sky-600 text-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[22px]">database</span>
+</div>
+<div>
+<h3 class="font-headline-card text-headline-card text-text dark:text-[#f8fafc] font-bold">Backend &amp; Database</h3>
+<p class="font-body-card text-[0.8rem] text-text-muted dark:text-[#94a3b8]">Server, Data, &amp; APIs</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Node.js</span>
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Express</span>
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">PostgreSQL</span>
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">MongoDB</span>
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">RESTful API</span>
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Supabase</span>
+</div>
+</div>
+<!-- Kategori 3: Desain & Alat Kerja -->
+<div class="p-space-lg rounded-[10px] bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border border-sky-100 dark:border-slate-800 shadow-sm flex flex-col gap-space-md hover:shadow-md transition-shadow">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-[10px] bg-sky-600 dark:bg-sky-600 text-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[22px]">design_services</span>
+</div>
+<div>
+<h3 class="font-headline-card text-headline-card text-text dark:text-[#f8fafc] font-bold">Desain &amp; Alat Kerja</h3>
+<p class="font-body-card text-[0.8rem] text-text-muted dark:text-[#94a3b8]">Workflow &amp; Productivity</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Figma</span>
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">UI/UX Design</span>
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Git</span>
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">GitHub</span>
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">VS Code</span>
+<span class="px-3.5 py-1.5 rounded-full bg-sky-50/80 dark:bg-slate-950 text-text dark:text-[#e2e8f0] border border-sky-100 dark:border-slate-800 font-body-card text-[0.85rem] font-medium shadow-sm hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Vercel</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION: KONTAK -->
+<section class="w-full py-section-padding-mobile md:py-section-padding-desktop transition-colors" id="kontak">
+<div class="max-w-[600px] mx-auto px-gutter flex flex-col items-center gap-space-lg text-center">
+<!-- Header Kontak -->
+<div class="flex flex-col items-center gap-space-xs">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100/80 dark:bg-sky-950/70 text-sky-700 dark:text-sky-300 border border-sky-200/60 dark:border-sky-800/60 font-tag-capsule text-tag-capsule uppercase tracking-wider font-semibold">
+          Hubungi Saya
+        </div>
+<h2 class="font-headline-section text-headline-section text-text dark:text-[#f8fafc] tracking-tight">
+          Mari Berkolaborasi
+        </h2>
+<p class="font-body-base text-body-base text-text-muted dark:text-[#94a3b8]">
+          Punya ide proyek menarik atau ingin berdiskusi seputar peluang kerja sama? Kirimkan pesan Anda melalui formulir berikut.
+        </p>
+</div>
+<!-- Single Column Contact Form Container -->
+<div class="w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm border border-sky-100 dark:border-slate-800 rounded-[10px] p-space-lg shadow-md text-left">
+<form class="flex flex-col gap-space-md" id="portfolio-contact-form" onsubmit="event.preventDefault(); document.getElementById('form-feedback').classList.remove('hidden'); this.reset();">
+<!-- Nama Lengkap -->
+<div class="flex flex-col gap-1.5">
+<label class="font-body-card text-body-card font-semibold text-text dark:text-[#f8fafc]" for="contact-name">
+              Nama Lengkap
+            </label>
+<input class="w-full px-4 py-3 rounded-[10px] bg-sky-50/60 dark:bg-slate-950 border border-sky-200/70 dark:border-slate-800 text-text dark:text-[#f8fafc] font-body-base text-body-base placeholder:text-text-muted/60 dark:placeholder:text-[#64748b] focus:bg-white dark:focus:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-400 transition-all" id="contact-name" name="name" placeholder="Contoh: Budiono Siregar" required="" type="text"/>
+</div>
+<!-- Alamat Email -->
+<div class="flex flex-col gap-1.5">
+<label class="font-body-card text-body-card font-semibold text-text dark:text-[#f8fafc]" for="contact-email">
+              Alamat Email
+            </label>
+<input class="w-full px-4 py-3 rounded-[10px] bg-sky-50/60 dark:bg-slate-950 border border-sky-200/70 dark:border-slate-800 text-text dark:text-[#f8fafc] font-body-base text-body-base placeholder:text-text-muted/60 dark:placeholder:text-[#64748b] focus:bg-white dark:focus:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-400 transition-all" id="contact-email" name="email" placeholder="nama@email.com" required="" type="email"/>
+</div>
+<!-- Subjek -->
+<div class="flex flex-col gap-1.5">
+<label class="font-body-card text-body-card font-semibold text-text dark:text-[#f8fafc]" for="contact-subject">
+              Subjek
+            </label>
+<input class="w-full px-4 py-3 rounded-[10px] bg-sky-50/60 dark:bg-slate-950 border border-sky-200/70 dark:border-slate-800 text-text dark:text-[#f8fafc] font-body-base text-body-base placeholder:text-text-muted/60 dark:placeholder:text-[#64748b] focus:bg-white dark:focus:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-400 transition-all" id="contact-subject" name="subject" placeholder="Proyek Baru / Diskusi Teknis" required="" type="text"/>
+</div>
+<!-- Pesan -->
+<div class="flex flex-col gap-1.5">
+<label class="font-body-card text-body-card font-semibold text-text dark:text-[#f8fafc]" for="contact-message">
+              Pesan
+            </label>
+<textarea class="w-full px-4 py-3 rounded-[10px] bg-sky-50/60 dark:bg-slate-950 border border-sky-200/70 dark:border-slate-800 text-text dark:text-[#f8fafc] font-body-base text-body-base placeholder:text-text-muted/60 dark:placeholder:text-[#64748b] focus:bg-white dark:focus:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-400 transition-all resize-none" id="contact-message" name="message" placeholder="Ceritakan detail proyek atau pertanyaan Anda :D" required="" rows="4"></textarea>
+</div>
+<!-- Submit Button -->
+<button class="w-full inline-flex items-center justify-center gap-2 font-body-card text-body-card font-semibold text-white bg-sky-600 hover:bg-sky-700 dark:bg-sky-600 dark:hover:bg-sky-500 transition-all duration-200 py-3 rounded-[10px] shadow-sm hover:shadow-sky-500/25" type="submit">
+<span class="material-symbols-outlined text-[18px]">send</span>
+            Kirim Pesan
+          </button>
+<!-- Feedback message -->
+<div class="hidden p-3 rounded-[10px] bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/50 font-body-card text-[0.85rem] text-center" id="form-feedback">
+            Pesan Anda telah berhasil dikirim! Saya akan segera merespons secepat mungkin.
+          </div>
+</form>
+</div>
+<!-- Alternatif Kontak Langsung & Social Media -->
+<div class="flex flex-col items-center gap-space-sm pt-2">
+<p class="font-body-card text-body-card text-text-muted dark:text-[#94a3b8]">
+          Atau hubungi saya secara langsung melalui:
+        </p>
+<a class="font-headline-card text-headline-card font-bold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 transition-colors" href="mailto:hello@aryapratama.dev">
+          hello@MferdynandS.dev
+        </a>
+<div class="flex items-center gap-4 pt-1">
+<a class="text-text-muted dark:text-[#94a3b8] hover:text-sky-600 dark:hover:text-sky-400 font-body-card text-body-card transition-colors" href="https://github.com" rel="noopener noreferrer" target="_blank">GitHub</a>
+<span class="w-1 h-1 rounded-full bg-sky-300 dark:bg-sky-800"></span>
+<a class="text-text-muted dark:text-[#94a3b8] hover:text-sky-600 dark:hover:text-sky-400 font-body-card text-body-card transition-colors" href="https://linkedin.com" rel="noopener noreferrer" target="_blank">LinkedIn</a>
+<span class="w-1 h-1 rounded-full bg-sky-300 dark:bg-sky-800"></span>
+<a class="text-text-muted dark:text-[#94a3b8] hover:text-sky-600 dark:hover:text-sky-400 font-body-card text-body-card transition-colors" href="https://twitter.com" rel="noopener noreferrer" target="_blank">Twitter</a>
+</div>
+</div>
+</div>
+</section>
+</div></main><footer class="relative z-10 w-full bg-white/60 dark:bg-[#070e1e]/90 border-t border-sky-100 dark:border-slate-800 shadow-[0_1px_8px_rgba(2,132,199,0.04)] backdrop-blur-sm transition-colors"><div class="max-w-[1100px] mx-auto px-gutter py-space-xl flex flex-col md:flex-row items-center justify-between gap-space-md text-center md:text-left"><p class="font-footer-text text-footer-text text-text-muted dark:text-[#94a3b8]">© 2025 Portfolio. Hak cipta dilindungi undang-undang.</p><div class="flex items-center gap-space-lg"><a class="font-footer-text text-footer-text text-text-muted dark:text-[#94a3b8] hover:text-sky-600 dark:hover:text-sky-400 transition-colors" data-path="tentang" href="#tentang">Tentang</a><a class="font-footer-text text-footer-text text-text-muted dark:text-[#94a3b8] hover:text-sky-600 dark:hover:text-sky-400 transition-colors" data-path="proyek" href="#proyek">Proyek</a><a class="font-footer-text text-footer-text text-text-muted dark:text-[#94a3b8] hover:text-sky-600 dark:hover:text-sky-400 transition-colors" data-path="keahlian" href="#keahlian">Keahlian</a><a class="font-footer-text text-footer-text text-text-muted dark:text-[#94a3b8] hover:text-sky-600 dark:hover:text-sky-400 transition-colors" data-path="kontak" href="#kontak">Kontak</a></div></div></footer><script>
+  // Dark Mode Interactive Toggle Handler dengan Transisi Halus
+  const themeToggleBtn = document.getElementById('theme-toggle');
+  let transitionTimeout;
+  
+  function applyTheme(isDark) {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    if (!prefersReducedMotion) {
+      document.documentElement.classList.add('theme-transition');
+      clearTimeout(transitionTimeout);
+    }
+    
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+
+    if (!prefersReducedMotion) {
+      transitionTimeout = setTimeout(() => {
+        document.documentElement.classList.remove('theme-transition');
+      }, 450);
+    }
+  }
+
+  themeToggleBtn.addEventListener('click', () => {
+    const isCurrentlyDark = document.documentElement.classList.contains('dark');
+    applyTheme(!isCurrentlyDark);
+  });
+
+  // Listen to system preference changes if user hasn't explicitly set localStorage
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!('theme' in localStorage)) {
+      applyTheme(e.matches);
+    }
+  });
+
+  // Ultra-Smooth Scroll Parallax / Upward Drift on Scroll Animation
+  (function initParallaxMotion() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (prefersReducedMotion.matches) return;
+
+    const layers = document.querySelectorAll('.parallax-layer[data-speed]');
+    if (!layers.length) return;
+
+    let targetScrollY = window.pageYOffset || document.documentElement.scrollTop;
+    let currentScrollY = targetScrollY;
+    let isTicking = false;
+
+    function onScroll() {
+      targetScrollY = window.pageYOffset || document.documentElement.scrollTop;
+      if (!isTicking) {
+        requestAnimationFrame(updateParallax);
+        isTicking = true;
+      }
+    }
+
+    function updateParallax() {
+      // Lerp (linear interpolation) for velvety silky-smooth drift
+      const ease = 0.085;
+      const diff = targetScrollY - currentScrollY;
+      currentScrollY += diff * ease;
+
+      layers.forEach(layer => {
+        const speed = parseFloat(layer.getAttribute('data-speed')) || -0.15;
+        // Upward floating effect: translateY is negative as user scrolls down
+        const yOffset = currentScrollY * speed;
+        layer.style.transform = `translate3d(0, ${yOffset.toFixed(2)}px, 0)`;
+      });
+
+      // Keep updating until difference is negligible
+      if (Math.abs(diff) > 0.1) {
+        requestAnimationFrame(updateParallax);
+      } else {
+        isTicking = false;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    // Run initial positioning
+    updateParallax();
+
+    // Re-check on reduce motion toggle
+    prefersReducedMotion.addEventListener('change', e => {
+      if (e.matches) {
+        layers.forEach(l => l.style.transform = '');
+        window.removeEventListener('scroll', onScroll);
+      } else {
+        window.addEventListener('scroll', onScroll, { passive: true });
+        updateParallax();
+      }
+    });
+  })();
+</script></body></html>
